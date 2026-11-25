@@ -1,0 +1,7 @@
+# Install the CPU-specific torch + torchvision wheels first (see README).
+fastapi>=0.115,<1
+uvicorn>=0.30,<1
+python-multipart>=0.0.9,<1
+Pillow>=10,<13
+torch>=2.5,<2.11
+torchvision>=0.20,<0.26

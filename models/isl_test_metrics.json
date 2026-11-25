@@ -1,0 +1,8 @@
+{
+  "test_accuracy": 0.946236559139785,
+  "macro_f1": 0.9455677365413314,
+  "test_images": 1023,
+  "classes_tested": 26,
+  "best_epoch": 20,
+  "evaluation_limitations": "Filename-block split, not signer-independent."
+}

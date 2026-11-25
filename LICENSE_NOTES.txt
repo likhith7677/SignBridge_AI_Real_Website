@@ -1,0 +1,4 @@
+SignBridge AI website source code is provided for this project user's use and modification.
+Pretrained model checkpoints were supplied by the user. No license or redistribution
+rights were verified for the underlying third-party training datasets and pretrained
+MobileNetV3 weights. Verify upstream model/data licenses before commercial redistribution.

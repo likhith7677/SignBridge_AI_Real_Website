@@ -1,0 +1,9 @@
+{
+  "test_accuracy": 0.9078947368421053,
+  "macro_f1_tested_classes": 0.9375541125541125,
+  "test_images": 76,
+  "classes_in_test": 42,
+  "total_classes": 44,
+  "best_epoch": 2,
+  "limitations": "Similarity-group split, not signer-independent. Some classes may be absent from test."
+}

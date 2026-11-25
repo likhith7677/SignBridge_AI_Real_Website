@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#09171d" />
+  <meta name="description" content="SignBridge AI helps turn individual ASL and ISL signs into readable and spoken messages using your trained AI models." />
+  <title>SignBridge AI — Signs into words</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="container topbar">
+        <a class="brand" href="#top" aria-label="SignBridge AI home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" width="36" height="36" fill="none">
+              <path d="M8 26V17a3 3 0 016 0v8-14a3 3 0 016 0v13-17a3 3 0 016 0v17-12a3 3 0 016 0v15c0 9-5 14-14 14-9 0-15-5-15-14 0-4 5-7 9-4l4 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M30 37l8-8" stroke="#b9f27c" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="brand-name">SignBridge <strong>AI</strong><small>COMMUNICATION, MADE ACCESSIBLE</small></span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#studio" class="active">Recognition studio</a>
+          <a href="#how">How it works</a>
+          <a href="#models">Our models</a>
+        </nav>
+        <span class="server-status" id="serverStatus"><span class="status-dot"></span><span id="serverText">Connecting to models…</span></span>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="hero-backdrop" aria-hidden="true"><div class="glow glow-one"></div><div class="glow glow-two"></div><div class="hero-grid"></div></div>
+      <section class="hero container" aria-labelledby="heroTitle">
+        <div class="hero-content">
+          <p class="eyebrow"><span class="tiny-star">✦</span> YOUR GESTURES. YOUR VOICE.</p>
+          <h1 id="heroTitle">A bridge between<br/><span class="gradient-text">signs and words.</span></h1>
+          <p class="hero-subtitle">Turn an ASL letter, ISL letter, or everyday ISL sign into a message people can read or hear. Powered by your three real AI models, right on your computer.</p>
+          <div class="hero-actions">
+            <a href="#studio" class="button button-primary">Open recognition studio <span aria-hidden="true">↗</span></a>
+            <a href="#how" class="button button-outline">See how it works</a>
+          </div>
+          <div class="hero-facts" aria-label="Model facts">
+            <div><strong>3</strong><span>trained models</span></div>
+            <i></i>
+            <div><strong>96.48%</strong><span>ASL held-out test accuracy*</span></div>
+            <i></i>
+            <div><strong>CPU</strong><span>no GPU required</span></div>
+          </div>
+        </div>
+        <div class="hero-illustration" aria-hidden="true">
+          <div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
+          <div class="hero-hand">✋</div>
+          <div class="floating-label label-top"><span class="label-indicator lime"></span><b>Gesture detected?</b><small>Review the model result</small></div>
+          <div class="floating-label label-bottom"><span class="label-symbol">Aa</span><div><b>Letters → words</b><small>Recognize · Compose · Speak</small></div></div>
+          <div class="sparkle sparkle-one">✦</div><div class="sparkle sparkle-two">✧</div>
+        </div>
+      </section>
+
+      <section id="studio" class="studio-section container" aria-labelledby="studioTitle">
+        <div class="section-intro">
+          <div><p class="eyebrow dark-eyebrow">LIVE RECOGNITION WORKSPACE</p><h2 id="studioTitle">Your recognition studio<span class="accent-period">.</span></h2><p>Choose a model, show one sign, and build a message in your own way.</p></div>
+          <div class="privacy-pill"><span aria-hidden="true">◈</span> Images processed in memory · not saved</div>
+        </div>
+
+        <div class="workspace">
+          <div class="workspace-left">
+            <section class="surface capture-card" aria-labelledby="captureHeading">
+              <div class="card-heading"><div><span class="step-num">01</span><h3 id="captureHeading">Show your sign</h3></div><span class="small-tag">Camera or image</span></div>
+              <div class="source-tabs" role="tablist" aria-label="Image source">
+                <button type="button" class="source-tab selected" role="tab" aria-selected="true" id="tabCamera" data-source="camera">◎ <span>Live camera</span></button>
+                <button type="button" class="source-tab" role="tab" aria-selected="false" id="tabUpload" data-source="upload">⇧ <span>Upload an image</span></button>
+              </div>
+
+              <div id="cameraPanel" role="tabpanel" aria-labelledby="tabCamera">
+                <div class="video-stage">
+                  <video id="cameraVideo" autoplay muted playsinline aria-label="Live camera view"></video>
+                  <div class="camera-empty" id="cameraEmpty">
+                    <div class="camera-icon">◉</div>
+                    <h4>Make your sign visible</h4>
+                    <p>Allow camera access, then hold one hand in the middle of the frame.</p>
+                    <button class="button button-light" id="enableCamera" type="button">Enable camera</button>
+                  </div>
+                  <div class="viewfinder" id="viewfinder" hidden><i></i><i></i><i></i><i></i></div>
+                  <div class="video-topline"><span class="live-indicator" id="liveIndicator">● Camera off</span><span>Center your hand</span></div>
+                  <div class="video-bottomline" id="cameraNote">Use good lighting and a plain background.</div>
+                </div>
+                <div class="capture-preferences">
+                  <label class="inline-check"><input type="checkbox" id="mirrorPreview" /> Mirror preview only</label>
+                  <button class="text-button" type="button" id="switchCamera" title="Switch between front and rear camera">↻ Switch camera</button>
+                  <button class="text-button" type="button" id="stopCamera" disabled>Stop camera</button>
+                </div>
+              </div>
+
+              <div id="uploadPanel" role="tabpanel" aria-labelledby="tabUpload" hidden>
+                <div class="upload-dropzone" id="uploadDropzone">
+                  <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp" aria-label="Select a photo of a hand sign" />
+                  <div class="upload-prompt" id="uploadPrompt"><span class="upload-icon">⇧</span><h4>Drop a sign image here</h4><p>or click to browse · JPG, PNG, WEBP or BMP · up to 8 MB</p></div>
+                  <img id="uploadPreview" alt="Selected sign image preview" hidden />
+                </div>
+                <div class="upload-file-row"><span id="fileName">No image selected</span><button type="button" class="text-button" id="removeFile" hidden>Remove image</button></div>
+              </div>
+
+              <div class="capture-actions">
+                <button class="button button-primary scan-button" type="button" id="recognizeButton"><span aria-hidden="true">✦</span><span id="recognizeLabel">Recognize sign</span></button>
+                <button class="button button-muted" type="button" id="autoScanButton" aria-pressed="false">◌ Start live scan</button>
+              </div>
+              <div class="help-line"><span class="info-icon">i</span><span>Live scanning updates predictions; <strong>nothing is added</strong> to your message until you choose it.</span></div>
+            </section>
+
+            <section class="surface model-picker" aria-labelledby="chooseModelTitle">
+              <div class="card-heading"><div><span class="step-num">02</span><h3 id="chooseModelTitle">Choose recognition mode</h3></div></div>
+              <div class="model-options" role="group" aria-label="Recognition model">
+                <button type="button" class="model-option selected" data-mode="asl" aria-pressed="true"><span class="option-art option-asl">A</span><span class="option-copy"><strong>ASL Alphabet</strong><small>American Sign Language · A–Z</small></span><span class="option-check" aria-hidden="true">✓</span></button>
+                <button type="button" class="model-option" data-mode="isl" aria-pressed="false"><span class="option-art option-isl">अ</span><span class="option-copy"><strong>ISL Alphabet</strong><small>Indian Sign Language · A–Z</small></span><span class="option-check" aria-hidden="true">✓</span></button>
+                <button type="button" class="model-option" data-mode="everyday" aria-pressed="false"><span class="option-art option-everyday">✋</span><span class="option-copy"><strong>ISL Everyday Life</strong><small>44 words and short phrases</small></span><span class="option-check" aria-hidden="true">✓</span></button>
+              </div>
+              <div class="threshold-row"><div><label for="confidenceThreshold">Minimum score to enable adding</label><small>Model scores can still be wrong on unfamiliar images.</small></div><div class="range-holder"><span id="thresholdValue">70%</span><input id="confidenceThreshold" aria-label="Minimum model score" type="range" min="40" max="95" value="70" step="5" /></div></div>
+            </section>
+          </div>
+
+          <div class="workspace-right">
+            <section class="surface result-card" aria-labelledby="recognitionHeading">
+              <div class="card-heading"><div><span class="step-num">03</span><h3 id="recognitionHeading">Recognition result</h3></div><span class="result-pill waiting" id="resultStatus">Waiting for sign</span></div>
+              <div class="result-placeholder" id="resultPlaceholder"><div class="placeholder-orbit">✦</div><h4>Your result appears here</h4><p>Show your sign, then tap “Recognize sign” to see predictions from your selected model.</p></div>
+              <div id="resultContent" hidden>
+                <div class="result-hero"><span class="result-topline">TOP PREDICTION</span><div class="result-main"><span class="result-symbol" id="resultLabel">A</span><span class="result-score"><strong id="resultConfidence">—</strong><small>model score</small></span></div><p id="resultMessage" class="result-message"></p></div>
+                <div class="alternatives"><div class="alternatives-title"><strong>Prediction alternatives</strong><small>Tap to select a different result</small></div><div id="alternativesList"></div></div>
+                <button class="button button-add" id="addPrediction" type="button" disabled>＋ Add selected sign to message</button>
+              </div>
+              <div id="practiceFeedback" class="practice-feedback" aria-live="polite" hidden></div>
+              <div class="result-disclaimer">ⓘ A high score does not confirm a sign is present. Check the result before communicating.</div>
+            </section>
+
+            <section class="surface message-card" aria-labelledby="messageTitle">
+              <div class="card-heading"><div><span class="step-num">04</span><h3 id="messageTitle">Make your message</h3></div><span class="small-tag">Editable</span></div>
+              <label for="messageText" class="field-label">YOUR MESSAGE</label>
+              <textarea id="messageText" rows="3" spellcheck="true" placeholder="Recognized letters and words appear here. You can also type or correct them." aria-label="Your editable message"></textarea>
+              <div class="composer-controls"><button type="button" id="spaceButton" class="chip-button">Space</button><button type="button" id="backspaceButton" class="chip-button">⌫ Backspace</button><button type="button" id="clearButton" class="chip-button">Clear</button><span id="charCount" class="char-count">0 characters</span></div>
+              <div class="message-actions"><button type="button" class="button button-speak" id="speakButton">◖ Speak message</button><button type="button" class="button button-outline-dark" id="copyButton">⧉ Copy text</button></div>
+              <div class="speech-row"><label for="speechVoice">Voice</label><select id="speechVoice" aria-label="Choose a speech voice"><option value="">Browser default (English)</option></select><button id="stopSpeech" type="button" class="text-button">Stop speech</button></div>
+              <div class="field-label quick-title">QUICK COMMUNICATION PHRASES <span>· TAP TO ADD</span></div>
+              <div class="quick-phrases" id="quickPhrases"><button type="button" data-phrase="I need help">I need help</button><button type="button" data-phrase="Please wait">Please wait</button><button type="button" data-phrase="Thank you">Thank you</button><button type="button" data-phrase="How are you?">How are you?</button><button type="button" data-phrase="Where is the exit?">Where is the exit?</button></div>
+              <p class="quick-note">Quick phrases are communication shortcuts, not claims that a model recognized those signs.</p>
+            </section>
+          </div>
+        </div>
+        <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+      </section>
+
+      <section class="how-section container" id="how" aria-labelledby="howTitle">
+        <div class="section-intro"><div><p class="eyebrow dark-eyebrow">SIMPLE BY DESIGN</p><h2 id="howTitle">A voice for every moment<span class="accent-period">.</span></h2><p>From a single letter to a full message, you're always in control of what is communicated.</p></div></div>
+        <div class="how-grid">
+          <article class="how-card"><span class="how-icon">◉</span><span class="how-number">01 / CAPTURE</span><h3>Show a sign</h3><p>Use your device camera or select a clear photograph of one hand sign.</p></article>
+          <article class="how-card"><span class="how-icon">✦</span><span class="how-number">02 / RECOGNIZE</span><h3>Review the result</h3><p>Choose ASL letters, ISL letters, or ISL everyday phrases. Confirm before adding.</p></article>
+          <article class="how-card"><span class="how-icon">❝</span><span class="how-number">03 / COMMUNICATE</span><h3>Build and speak</h3><p>Edit the resulting text, copy it, or have your device read it aloud.</p></article>
+        </div>
+      </section>
+
+      <section id="models" class="models-section" aria-labelledby="modelsTitle"><div class="container">
+        <div class="section-intro light"><div><p class="eyebrow">BUILT ON YOUR TRAINED RESEARCH</p><h2 id="modelsTitle">Three models. One bridge<span class="accent-period">.</span></h2><p>Actual saved MobileNetV3-Small checkpoints running locally on CPU.</p></div></div>
+        <div id="modelCards" class="model-metric-grid" aria-label="Model evaluation results">
+          <div class="metric-card"><p>ASL Alphabet</p><strong>96.48%</strong><small>test accuracy · 10,400 images</small></div>
+          <div class="metric-card"><p>ISL Alphabet</p><strong>94.62%</strong><small>test accuracy · 1,023 images</small></div>
+          <div class="metric-card"><p>ISL Everyday Life</p><strong>90.79%</strong><small>test accuracy · 76 images</small></div>
+        </div>
+        <p class="models-caveat">*Reported results use different preliminary dataset-level test protocols. They are not directly comparable and do not establish performance on unseen signers, continuous signing, or new camera environments. Everyday Life testing covered 42 of its 44 classes. These are not clinical or emergency-use certified systems.</p>
+      </div></section>
+
+      <section class="promise-section container"><div class="promise-icon">⌁</div><div><h3>Designed with privacy in mind.</h3><p>Webcam frames and uploaded images are sent only to the running SignBridge AI server for recognition, processed in memory, and not saved by this application. When run on your own PC, they stay on your PC. Speech uses your browser's built-in voices.</p></div><span class="promise-badge">LOCAL-FIRST</span></section>
+    </main>
+
+    <footer class="footer"><div class="container footer-inner"><span><strong>SignBridge AI</strong> · Sign recognition and communication support</span><span>AI predictions are assistive suggestions — always verify important messages.</span></div></footer>
+  </div>
+</body>
+</html>

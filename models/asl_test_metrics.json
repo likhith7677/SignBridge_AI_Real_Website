@@ -1,0 +1,8 @@
+{
+  "test_accuracy": 0.9648076923076923,
+  "macro_f1": 0.9642377111543621,
+  "test_images": 10400,
+  "classes_tested": 26,
+  "best_epoch": 6,
+  "evaluation_note": "Filename-group holdout. Signer-independent generalization is not verified."
+}
